@@ -2,6 +2,15 @@
 
 API HTTP em Python para converter slides HTML em PDF usando Playwright. Suporta múltiplas URLs e retorna o PDF gerado para download.
 
+## 📥 Clonar o repositório
+
+```bash
+git clone https://github.com/usabit/html-pdf-generator.git
+cd html-pdf-generator
+```
+
+Depois de clonar, siga os passos de instalação abaixo.
+
 ## 🚀 Instalação
 
 ```bash

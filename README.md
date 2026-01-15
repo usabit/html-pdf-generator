@@ -18,9 +18,73 @@ pip install -r requirements.txt
 python -m playwright install chromium
 ```
 
+### Build Command no Render
+
+```bash
+pip install -r requirements.txt && python -m playwright install chromium
+```
+
+### Start Command no Render
+
+```bash
+python server.py
+```
+
 ## ⚙️ Configuração
 
 Não é necessário configurar nada adicional. A API roda diretamente após a instalação.
+
+## 🌐 Deploy no Render
+
+### Passo a passo
+
+1. Acesse [render.com](https://render.com) e faça login com sua conta GitHub
+2. Clique em **New +** → **Web Service**
+3. Conecte o repositório: `usabit/html-pdf-generator`
+4. Configure o Web Service:
+
+**Build Command:**
+```bash
+pip install -r requirements.txt && python -m playwright install chromium
+```
+
+**Start Command:**
+```bash
+python server.py
+```
+
+**Instance:**
+- **Type:** Free ou Starter ($7/mês recomendado para melhor performance)
+- **CPU/RAM:** 1 CPU / 512 MB RAM (mínimo gratuito)
+
+5. Clique em **Create Web Service**
+
+### Variáveis de Ambiente (Opcional)
+
+Se quiser mudar a porta padrão:
+```
+PORT=8080
+```
+
+### URL do Deploy
+
+Após o deploy, você receberá uma URL como:
+```
+https://html-pdf-generator.onrender.com
+```
+
+### ⚠️ Notas Importantes
+
+- **Plano Free:** O serviço dorme após 15 minutos de inatividade e reinicializa em ~30 segundos
+- **Recomendação:** Use o plano Starter ($7/mês) para produção (sem sleep, mais performance)
+- **Uptime Checker:** Para evitar sleep no plano gratuito, use [UptimeRobot](https://uptimerobot.com) fazendo ping a cada 5 minutos
+
+### Redeploy Manual
+
+Se precisar forçar um novo deploy:
+1. Vá ao painel do Render
+2. Clique no seu serviço
+3. Clique em **Manual Deploy** → **Clear build cache & deploy**
 
 ## ▶️ Executar
 

@@ -45,7 +45,7 @@ Não é necessário configurar nada adicional. A API roda diretamente após a in
 
 **Build Command:**
 ```bash
-pip install -r requirements.txt && python -m playwright install chromium
+bash render-build.sh
 ```
 
 **Start Command:**
@@ -58,6 +58,8 @@ python server.py
 - **CPU/RAM:** 1 CPU / 512 MB RAM (mínimo gratuito)
 
 5. Clique em **Create Web Service**
+
+**Nota:** O arquivo `render-build.sh` está incluído no repositório e já contém todas as instruções para instalar dependências do Linux e o Chromium corretamente.
 
 ### Variáveis de Ambiente (Opcional)
 
@@ -85,6 +87,17 @@ Se precisar forçar um novo deploy:
 1. Vá ao painel do Render
 2. Clique no seu serviço
 3. Clique em **Manual Deploy** → **Clear build cache & deploy**
+
+### ⚠️ Solução de Problemas
+
+Se o build falhar com erro "Executable doesn't exist":
+1. Vá em **Settings** → **Environment**
+2. Adicione a variável de ambiente:
+   ```
+   PLAYWRIGHT_BROWSERS_PATH=/opt/render/.cache/ms-playwright
+   ```
+3. Clique em **Save Changes**
+4. Faça um novo deploy manual
 
 ## ▶️ Executar
 

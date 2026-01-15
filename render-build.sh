@@ -30,13 +30,24 @@ sudo apt-get install -y \
     libcairo2 \
     libgdk-pixbuf-2.0-0 \
     libgtk-3-0 \
-    libatspi2.0-0 \
-    libwayland-client0 \
-    libwayland-cursor0 \
-    libwayland-egl0
+    libatspi2.0-0
 
-# Instalar Chromium do Playwright
-python -m playwright install chromium
+# Instalar Chromium do Playwright (com verbose para debug)
+echo "📦 Instalando Chromium..."
+PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=0 python -m playwright install chromium --with-deps
+
+# Verificar se o Chromium foi instalado
+echo "🔍 Verificando instalação..."
+python -c "from playwright.sync_api import sync_playwright; p = sync_playwright().start(); browser = p.chromium.launch(headless=True); print('✅ Chromium instalado com sucesso!'); browser.close(); p.stop()"
+
+# Encontrar o caminho do binário do Chromium e exportar
+echo "🔍 Encontrando caminho do Chromium..."
+CHROMIUM_PATH=$(python -c "from playwright.sync_api import sync_playwright; p = sync_playwright().start(); path = p.chromium.executable_path; print(path); p.stop()")
+echo "📂 Chromium path: $CHROMIUM_PATH"
+
+# Exportar para ambiente do Render (adicionar ao .bashrc para persistência)
+echo "export CHROMIUM_PATH=$CHROMIUM_PATH" >> $HOME/.bashrc
+echo "✅ CHROMIUM_PATH configurado: $CHROMIUM_PATH"
 
 # Limpar cache para economizar espaço
 rm -rf /opt/render/.cache/ms-playwright/webkit*

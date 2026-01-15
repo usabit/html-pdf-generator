@@ -6,6 +6,7 @@ API HTTP Simples para converter slides HTML em PDF
 import asyncio
 import http.server
 import json
+import os
 import socketserver
 import tempfile
 import time
@@ -14,6 +15,10 @@ from pathlib import Path
 
 from playwright.async_api import async_playwright
 from PyPDF2 import PdfMerger
+
+# Caminho do executável do Chromium no Render
+# O Playwright instala em diferentes locais dependendo do sistema operacional
+CHROMIUM_PATH = os.getenv("CHROMIUM_PATH", None)
 
 
 class APIHandler(http.server.SimpleHTTPRequestHandler):
@@ -134,15 +139,21 @@ class APIHandler(http.server.SimpleHTTPRequestHandler):
     ):
         async with async_playwright() as p:
             # Otimizações para velocidade
-            browser = await p.chromium.launch(
-                args=[
+            # Usa o caminho do Chromium se especificado (para Render), senão usa padrão
+            launch_options = {
+                "args": [
                     "--disable-dev-shm-usage",
                     "--disable-gpu",
                     "--no-sandbox",
                     "--disable-setuid-sandbox",
                     "--disable-web-security",
                 ]
-            )
+            }
+
+            if CHROMIUM_PATH:
+                launch_options["executable_path"] = CHROMIUM_PATH
+
+            browser = await p.chromium.launch(**launch_options)
             page = await browser.new_page()
 
             # Configura viewport com margem de segurança para compensar cortes

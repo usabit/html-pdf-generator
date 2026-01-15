@@ -13,6 +13,21 @@ Depois de clonar, siga os passos de instalação abaixo.
 
 ## 🚀 Instalação
 
+### Opção 1: Docker (Recomendado)
+
+#### Local:
+```bash
+docker build -t html-pdf-api .
+docker run -p 3000:3000 html-pdf-api
+```
+
+Ou usando docker-compose:
+```bash
+docker-compose up
+```
+
+### Opção 2: Python direto
+
 ```bash
 pip install -r requirements.txt
 python -m playwright install chromium
@@ -45,13 +60,16 @@ Não é necessário configurar nada adicional. A API roda diretamente após a in
 
 **Build Command:**
 ```bash
-bash render-build.sh
+docker build -t html-pdf-api .
 ```
 
 **Start Command:**
 ```bash
-python server.py
+docker run -p 3000:3000 html-pdf-api
 ```
+
+**Docker Context:** (necessário para o Render)
+- Marque "Use Dockerfile" nas configurações
 
 **Instance:**
 - **Type:** Free ou Starter ($7/mês recomendado para melhor performance)
@@ -59,7 +77,7 @@ python server.py
 
 5. Clique em **Create Web Service**
 
-**Nota:** O arquivo `render-build.sh` está incluído no repositório e já contém todas as instruções para instalar dependências do Linux e o Chromium corretamente.
+**Nota:** O Dockerfile já contém todas as dependências necessárias e instala o Chromium automaticamente.
 
 ### Variáveis de Ambiente (Opcional)
 
@@ -176,6 +194,10 @@ curl http://localhost:3000/download/slides.pdf -o downloaded.pdf
 
 - `server.py` - API HTTP principal com todos os endpoints
 - `requirements.txt` - Dependências Python
+- `Dockerfile` - Imagem Docker para deploy
+- `docker-compose.yml` - Docker Compose para desenvolvimento local
+
+- `.dockerignore` - Arquivos ignorados no build do Docker
 
 ## ✅ Funcionalidades
 

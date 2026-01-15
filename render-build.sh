@@ -40,14 +40,12 @@ PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=0 python -m playwright install chromium --with-
 echo "🔍 Verificando instalação..."
 python -c "from playwright.sync_api import sync_playwright; p = sync_playwright().start(); browser = p.chromium.launch(headless=True); print('✅ Chromium instalado com sucesso!'); browser.close(); p.stop()"
 
-# Encontrar o caminho do binário do Chromium e exportar
-echo "🔍 Encontrando caminho do Chromium..."
-CHROMIUM_PATH=$(python -c "from playwright.sync_api import sync_playwright; p = sync_playwright().start(); path = p.chromium.executable_path; print(path); p.stop()")
-echo "📂 Chromium path: $CHROMIUM_PATH"
-
-# Exportar para ambiente do Render (adicionar ao .bashrc para persistência)
-echo "export CHROMIUM_PATH=$CHROMIUM_PATH" >> $HOME/.bashrc
-echo "✅ CHROMIUM_PATH configurado: $CHROMIUM_PATH"
+# Criar link simbólico do chromium_headless_shell para chromium (workaround para Render)
+echo "🔧 Criando link simbólico para chromium_headless_shell..."
+CHROMIUM_DIR="/opt/render/.cache/ms-playwright/chromium_headless_shell-1200"
+mkdir -p "$CHROMIUM_DIR/chrome-headless-shell-linux64"
+ln -sf /opt/render/.cache/ms-playwright/chromium-1200/chrome-linux64/chrome "$CHROMIUM_DIR/chrome-headless-shell-linux64/chrome-headless-shell"
+echo "✅ Link simbólico criado!"
 
 # Limpar cache para economizar espaço
 rm -rf /opt/render/.cache/ms-playwright/webkit*
